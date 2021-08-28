@@ -13,10 +13,6 @@ router.post(
   asyncHandler(async (req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({ email })
-    // .lean()
-    // .catch((err) => {
-    //   console.log('Error: ', err)
-    // })
 
     if (!user) return res.status(404).json({ message: 'Email is not found !' })
 

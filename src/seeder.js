@@ -1,8 +1,8 @@
 import users from './data/UserData.js'
-import products from './data/ProductData.js'
+import courses from './data/CourseData.js'
 // Models
 import User from './models/userModel.js'
-import Product from './models/productModel.js'
+import Course from './models/courseModel.js'
 // other
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
@@ -13,18 +13,20 @@ connectDB()
 
 const importData = async () => {
   try {
-    await Product.deleteMany()
     await User.deleteMany()
+    await Course.deleteMany()
 
     const createdUsers = await User.insertMany(users)
     const adminUser = createdUsers[0]._id
 
-    const sampleProducts = products.map((product) => {
+    const sampleCourse = courses.map((product) => {
       return { ...product, user: adminUser }
     })
-    await Product.insertMany(sampleProducts)
 
-    console.log(sampleProducts)
+    const createdCourse = await Course.insertMany(sampleCourse)
+
+    console.log(createdCourse)
+    console.log(createdUsers)
     console.log('data Inserted !')
     process.exit()
   } catch (error) {
@@ -35,10 +37,7 @@ const importData = async () => {
 
 const destroyData = async () => {
   try {
-    await Product.deleteMany()
-    await Order.deleteMany()
     await User.deleteMany()
-
     console.log('data is destroyed ')
     process.exit(0)
   } catch (error) {

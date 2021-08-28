@@ -8,7 +8,7 @@ const router = express.Router()
 router.post(
   '/register',
   asyncHandler(async (req, res) => {
-    const { email, password } = req.body
+    const { name, email, password, trainer } = req.body
 
     const alreadyExist = await User.findOne({ email })
 
@@ -18,15 +18,18 @@ router.post(
         .json({ status: 'error', error: 'email already in use' })
     } else {
       const user = await User.create({
+        name,
         password,
         email,
+        trainer,
       })
       if (user) {
         res.status(201).json({
           _id: user._id,
+          name: user.name,
+          trainer: user.trainer,
           email: user.email,
           isAdmin: user.isAdmin,
-          token: generateToken(user._id),
         })
       }
     }

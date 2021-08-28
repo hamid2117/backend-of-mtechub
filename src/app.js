@@ -13,11 +13,8 @@ import middlewares from './middlewares.js'
 import api from './api/index.js'
 const app = express()
 
-//to accept data from req.body (which is used in login to get email and password )
-
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-//..
 
 app.use(morgan('dev'))
 app.use(helmet())
